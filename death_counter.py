@@ -17,8 +17,17 @@ CONFIG_FILE = "config.yaml"
 
 @lru_cache()
 def load_config():
-	with open( CONFIG_FILE ) as f:
-		return load( f, Loader = Loader )
+	try:
+		with open( CONFIG_FILE ) as f:
+			config = load( f, Loader = Loader )
+
+			if config:
+				return config
+
+			raise FileNotFoundError
+	except FileNotFoundError:
+		with open( f"{CONFIG_FILE}.template" ) as f:
+			return load( f, Loader = Loader )
 
 def dump_config( config ):
 	with open( CONFIG_FILE, "w" ) as f:
