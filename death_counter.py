@@ -66,7 +66,9 @@ def save_die_screen( path, img ):
 	cv2.imwrite( path, img )
 
 def main():
+
 	config = load_config()
+	config.pop( "terminated", None )
 
 	screen_width, screen_height = config['resolution']['width'], config['resolution']['height']
 
@@ -80,18 +82,22 @@ def main():
 
 	with mss.mss() as sct:
 		import time
-		while True:
+		while not config.get( "terminate", False ):
 			if get_is_died( sct, mon_zone ):
 				config['death_count'] += 1
-				print( config['death_count'] )
+				dump_config( config )
 				save_die_screen( 
 					f"{config['died_images_folder']}\{config['death_count']}.jpg",
 					numpy.asarray(sct.grab( full_screen )),
 				)
-				dump_config( config )
 				time.sleep( TIME_COOLDOWN )
 
 			time.sleep( TIME_LOOP )
+		else:
+			config[ "terminated" ] = config.pop( "terminate" )
+
+def stop():
+	load_config()[ "terminate" ] = True
 
 if __name__ == '__main__':
 	main()
