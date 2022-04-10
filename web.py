@@ -48,8 +48,14 @@ def get_counter():
 @app.get( "/stop" )
 def stop_counter():
 	from death_counter import stop
+
+	settings = get_settings()
+
+	if settings.counter is None or not settings.counter.is_alive():
+		return { "message": "Not started." }
+
 	stop()
-	return { "message": "Stopping..." } 
+	return { "message": "Stopped" }
 
 @app.get( "/status" )
 def get_status():

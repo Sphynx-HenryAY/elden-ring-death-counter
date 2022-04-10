@@ -71,11 +71,14 @@ def save_die_screen( path, img ):
 def main():
 
 	config = load_config()
-	config.pop( "terminated", None )
+
+	context = config.get( "__CONTEXT__", {} )
+	config[ "__CONTEXT__" ] = context
 
 	with mss.mss() as sct:
 		import time
-		while not config.get( "terminate", False ):
+		while not context.get( "terminate", False ):
+
 			if get_is_died( sct ):
 				config['death_count'] += 1
 				dump_config( config )
@@ -87,10 +90,21 @@ def main():
 
 			time.sleep( TIME_LOOP )
 		else:
-			config[ "terminated" ] = config.pop( "terminate" )
+			context[ "terminated" ] = config.pop( "terminate" )
 
 def stop():
-	load_config()[ "terminate" ] = True
+	context = load_config().get( "__CONTEXT__", {} )
+
+	if not context.get( "RUNNING", False ):
+		return
+
+	context[ "terminate" ] = True
+
+	import time
+	while not context.get( "terminated", False ):
+		time.sleep( TIME_LOOP )
+
+	return
 
 if __name__ == '__main__':
 	main()
