@@ -1,6 +1,16 @@
 # Elden Ring death counter
 A simple death counter that is helping a newbie fighting Tree Sentinel.
 
+# Installation
+- Install OCR from below section
+- Install Python
+- Run powershell or cmd at project directory to install dependencies
+  - `python -m venv death_counter`
+  - `.\death_counter\Scripts\pip install -r requirements.txt`
+
+# Usage
+- Run `.\death_counter\Scripts\python main.py` at project directory
+
 # OCR
 This counter is using the [tesseract](https://github.com/tesseract-ocr/tesseract) OCR engine.
 
