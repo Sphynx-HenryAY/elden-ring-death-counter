@@ -1,3 +1,5 @@
 death_count: 168
 died_images_folder: images
-
+resolution:
+    width: 1920
+    height: 1080
