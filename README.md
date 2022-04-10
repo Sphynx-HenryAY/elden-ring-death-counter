@@ -32,8 +32,8 @@ Will be keep updated until Tree Sentinel fall. 🥲
 - best hit: 70%
 
 # Future plan
-- Simplify detection mechanism.
-- Add web ui for easy configuration.
-- Create web page to show counter on green background, to be used in live streaming.
-- See if display overlay possible.
-- BEAT THAT TREE SENTINEL.
+[] Simplify detection mechanism.
+[] Add web ui for easy configuration.
+[x] Create web page to show counter on green background, to be used in live streaming.
+[] See if display overlay possible.
+[] BEAT THAT TREE SENTINEL.
