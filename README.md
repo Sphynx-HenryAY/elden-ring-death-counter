@@ -9,7 +9,7 @@ A simple death counter that is helping a newbie fighting Tree Sentinel.
   - `.\death_counter\Scripts\pip install -r requirements.txt`
 
 # Usage
-- Run `.\death_counter\Scripts\python main.py` at project directory
+- Run `.\death_counter\Scripts\python death_counter.py` at project directory
 
 # OCR
 This counter is using the [tesseract](https://github.com/tesseract-ocr/tesseract) OCR engine.
