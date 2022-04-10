@@ -20,3 +20,10 @@ Will be keep updated until Tree Sentinel fall. 🥲
 - game time: 4:30
 - death count: 159
 - best hit: 70%
+
+# Future plan
+- Simplify detection mechanism.
+- Add web ui for easy configuration.
+- Create web page to show counter on green background, to be used in live streaming.
+- See if display overlay possible.
+- BEAT THAT TREE SENTINEL.
