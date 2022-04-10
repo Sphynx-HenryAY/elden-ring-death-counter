@@ -1,5 +1,6 @@
 import cv2
 import mss
+import numpy
 
 TIME_LOOP = 0.5
 TIME_COOLDOWN = 5
@@ -24,7 +25,6 @@ def get_monitoring_area( width, height ):
 def get_is_died( sct, threshold = 0.8 ):
 	import pytesseract
 	from fuzzywuzzy import fuzz
-	import numpy
 
 	pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 	punc_trans = str.maketrans( '', '', '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' )
@@ -43,8 +43,8 @@ def get_is_died( sct, threshold = 0.8 ):
 
 	return fuzz.ratio( 'YOU DIED', text ) > ( threshold * 100 )
 
-def save_die_screen( img, path ):
-	cv2.imwrite( img, path )
+def save_die_screen( path, img ):
+	cv2.imwrite( path, img )
 
 screen_width, screen_height = get_screen_size()
 
@@ -61,10 +61,10 @@ with mss.mss() as sct:
 	while True:
 		if get_is_died( sct ):
 			counter += 1
-			print( counter, ratio, text )
+			print( counter )
 			save_die_screen( 
+				f"{died_images_folder}\{counter}.jpg",
 				numpy.asarray(sct.grab( full_screen )),
-				f"{died_images_folder}\{counter}.jpg"
 			)
 			time.sleep( TIME_COOLDOWN )
 
