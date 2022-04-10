@@ -14,6 +14,7 @@ TIME_LOOP = 0.25
 TIME_COOLDOWN = 5
 
 CONFIG_FILE = "config.yaml"
+PUNC_TRANS = str.maketrans( '', '', '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' )
 
 @lru_cache()
 def load_config():
@@ -33,31 +34,33 @@ def dump_config( config ):
 	with open( CONFIG_FILE, "w" ) as f:
 		print( dump( config, Dumper = Dumper ), file = f )
 
-def get_monitoring_area( width, height ):
+@lru_cache()
+def get_monitoring_area( top, left, width, height ):
 	return {
-		'top': int( height * 0.43 ),
-		'left': int( width * 0.4 ),
-		'height': int( height * 0.1 ),
+		'top': top + int( height * 0.43 ),
+		'left': left + int( width * 0.4 ),
 		'width': int( width * 0.2 ),
+		'height': int( height * 0.1 ),
 	}
 
-def get_is_died( sct, mon_zone, threshold = 0.8 ):
+def get_is_died( sct, threshold = 0.8 ):
 	import pytesseract
 	from fuzzywuzzy import fuzz
 
 	pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
-	punc_trans = str.maketrans( '', '', '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' )
+
+	config = load_config()
 
 	text = (
 		pytesseract.image_to_string(
 			cv2.cvtColor(
-				numpy.asarray(sct.grab( mon_zone )),
+				numpy.asarray(sct.grab( get_monitoring_area( **sct.monitors[ config[ "monitor" ] ] ) )),
 				cv2.COLOR_BGR2GRAY
 			),
 			lang = 'eng',
 			config = '--psm 13'
 		)
-		.translate( punc_trans )
+		.translate( PUNC_TRANS )
 	)
 
 	return fuzz.ratio( 'YOU DIED', text ) > ( threshold * 100 )
@@ -70,25 +73,15 @@ def main():
 	config = load_config()
 	config.pop( "terminated", None )
 
-	screen_width, screen_height = config['resolution']['width'], config['resolution']['height']
-
-	mon_zone = get_monitoring_area( screen_width, screen_height )
-	full_screen = {
-		'top': 0,
-		'left': 0,
-		'height': screen_height,
-		'width': screen_width,
-	}
-
 	with mss.mss() as sct:
 		import time
 		while not config.get( "terminate", False ):
-			if get_is_died( sct, mon_zone ):
+			if get_is_died( sct ):
 				config['death_count'] += 1
 				dump_config( config )
 				save_die_screen( 
 					f"{config['died_images_folder']}\{config['death_count']}.jpg",
-					numpy.asarray(sct.grab( full_screen )),
+					numpy.asarray(sct.grab( sct.monitors[ config[ "monitor" ] ] )),
 				)
 				time.sleep( TIME_COOLDOWN )
 

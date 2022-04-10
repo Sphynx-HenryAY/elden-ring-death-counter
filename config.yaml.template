@@ -1,5 +1,4 @@
 death_count: 0
 died_images_folder: images
-resolution:
-    width: 1920
-    height: 1080
+page_reload: 500
+monitor: 1
