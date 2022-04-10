@@ -2,12 +2,24 @@ import cv2
 import mss
 import numpy
 
-TIME_LOOP = 0.5
+from yaml import load, dump
+try:
+	from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+	from yaml import Loader, Dumper
+
+TIME_LOOP = 0.25
 TIME_COOLDOWN = 5
 
-counter = 159
+CONFIG_FILE = "config.yaml"
 
-died_images_folder = r".\images"
+def load_config():
+	with open( CONFIG_FILE ) as f:
+		return load( f, Loader = Loader )
+
+def dump_config():
+	with open( CONFIG_FILE, "w" ) as f:
+		print( dump( config, Dumper = Dumper ), file = f )
 
 def get_screen_size():
 	import tkinter
@@ -56,16 +68,19 @@ full_screen = {
 	'width': screen_width,
 }
 
+config = load_config()
+
 with mss.mss() as sct:
 	import time
 	while True:
 		if get_is_died( sct ):
-			counter += 1
-			print( counter )
+			config['death_count'] += 1
+			print( config['death_count'] )
 			save_die_screen( 
-				f"{died_images_folder}\{counter}.jpg",
+				f"{config['died_images_folder']}\{config['death_count']}.jpg",
 				numpy.asarray(sct.grab( full_screen )),
 			)
+			dump_config()
 			time.sleep( TIME_COOLDOWN )
 
 		time.sleep( TIME_LOOP )
