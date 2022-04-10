@@ -1,3 +1,5 @@
+from functools import lru_cache
+
 import cv2
 import mss
 import numpy
@@ -13,6 +15,7 @@ TIME_COOLDOWN = 5
 
 CONFIG_FILE = "config.yaml"
 
+@lru_cache()
 def load_config():
 	with open( CONFIG_FILE ) as f:
 		return load( f, Loader = Loader )
