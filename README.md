@@ -1,6 +1,12 @@
 # Elden Ring death counter
-
 A simple death counter that is helping a newbie fighting Tree Sentinel.
+
+# OCR
+This counter is using the [tesseract](https://github.com/tesseract-ocr/tesseract) OCR engine.
+
+Installer shortcut:
+- [Windows 64 bit](https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w64-setup-v5.0.1.20220118.exe)
+- [Windows 32 bit](https://digi.bib.uni-mannheim.de/tesseract/tesseract-ocr-w32-setup-v5.0.1.20220118.exe)
 
 # Detection flow
 1. read centre of screenshot
@@ -14,4 +20,3 @@ Will be keep updated until Tree Sentinel fall. 🥲
 - game time: 4:30
 - death count: 159
 - best hit: 70%
-
