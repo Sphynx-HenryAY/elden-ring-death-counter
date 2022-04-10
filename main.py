@@ -9,17 +9,17 @@ counter = 159
 died_images_folder = r".\images"
 
 def get_screen_size():
-    import tkinter
-    root = tkinter.Tk()
-    return root.winfo_screenwidth(), root.winfo_screenheight()
+	import tkinter
+	root = tkinter.Tk()
+	return root.winfo_screenwidth(), root.winfo_screenheight()
 
 def get_monitoring_area( width, height ):
-    return {
-        'top': int( height * 0.43 ),
-        'left': int( width * 0.4 ),
-        'height': int( height * 0.1 ),
-        'width': int( width * 0.2 ),
-    }
+	return {
+		'top': int( height * 0.43 ),
+		'left': int( width * 0.4 ),
+		'height': int( height * 0.1 ),
+		'width': int( width * 0.2 ),
+	}
 
 def get_is_died( sct, threshold = 0.8 ):
 	import pytesseract
@@ -58,14 +58,14 @@ full_screen = {
 
 with mss.mss() as sct:
 	import time
-    while True:
-        if get_is_died( sct ):
-            counter += 1
-            print( counter, ratio, text )
+	while True:
+		if get_is_died( sct ):
+			counter += 1
+			print( counter, ratio, text )
 			save_die_screen( 
 				numpy.asarray(sct.grab( full_screen )),
 				f"{died_images_folder}\{counter}.jpg"
 			)
-            time.sleep( TIME_COOLDOWN )
+			time.sleep( TIME_COOLDOWN )
 
-        time.sleep( TIME_LOOP )
+		time.sleep( TIME_LOOP )
