@@ -36,4 +36,5 @@ Will be keep updated until Tree Sentinel fall. 🥲
 [] Add web ui for easy configuration.
 [x] Create web page to show counter on green background, to be used in live streaming.
 [] See if display overlay possible.
+[] Merge death counter config and web settings.
 [] BEAT THAT TREE SENTINEL.
