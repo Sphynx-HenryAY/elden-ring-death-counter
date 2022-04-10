@@ -1,0 +1,25 @@
+<style>
+body {
+	background-color: green;
+	color: yellow;
+	font-size: 4rem;
+}
+</style>
+<div class="death_count"/>
+<script>
+function timeout( interval ) {
+	setTimeout(function () {
+
+		var xmlHttp = new XMLHttpRequest();
+		xmlHttp.open( "GET", "/status", false )
+		xmlHttp.send( null );
+
+		data = JSON.parse( xmlHttp.responseText );
+		document.getElementsByClassName("death_count")[0].innerHTML = data.death_count;
+		interval = data.page_reload || interval
+
+		timeout( interval );
+	}, interval);
+}
+timeout( 500 )
+</script>

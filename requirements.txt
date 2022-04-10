@@ -3,3 +3,5 @@ mss
 pytesseract
 fuzzywuzzy
 pyyaml
+fastapi
+uvicorn[standard]
