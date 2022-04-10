@@ -27,7 +27,7 @@ Installer shortcut:
 
 ## Tree Sentinel Progress
 Will be keep updated until Tree Sentinel fall. 🥲
-- game time: 4:50
+- game time: 4 hours 50 minutes
 - death count: 168
 - best hit: 70%
 
